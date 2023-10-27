@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: orthanc-auth-service-volume
+  labels:
+    type: local
+spec:
+  storageClassName: orthanc-auth-service
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/tingmon/local-pv/orthanc-auth-service/permissions.jsonc"

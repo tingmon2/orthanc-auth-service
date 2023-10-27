@@ -2,13 +2,16 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
+# 모든 서비스들의 앞에 존재 할 리버스 프록시 서버
 FROM nginx:1.23
 
 RUN mkdir /etc/nginx/enabled-reverse-proxies
 RUN mkdir /scripts
 
+# 일단 리버스 프록시 관련 컨피그 파일들을 전부 disabled-reverse-proxy 폴더 넣음. (나중에 bash 파일이용해 enabled로 옮길 듯??)
 ADD nginx/reverse-proxy.* /etc/nginx/disabled-reverse-proxies/
 
+# nginx 서버의 설정값. 리스닝 포트, 버퍼 사이즈, 위의 리버스 프록시 설정값 등..
 ADD nginx/orthanc-nginx-*.conf /etc/nginx/disabled-conf/
 
 COPY nginx/docker-entrypoint.sh /scripts/
@@ -16,5 +19,6 @@ COPY nginx/docker-entrypoint.sh /scripts/
 RUN ls -al /etc/nginx/disabled-reverse-proxies/
 
 ENTRYPOINT ["./scripts/docker-entrypoint.sh"]
+# nginx 서버를 도커에서 실행. 이때 deamon off를 설정하지 않으면 컨테이너 정상 작동 안됨.
 CMD ["nginx", "-g", "daemon off;"]
 

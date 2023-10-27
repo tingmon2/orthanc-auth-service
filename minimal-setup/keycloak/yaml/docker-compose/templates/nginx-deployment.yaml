@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nginx
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: nginx
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: nginx
+    spec:
+      containers:
+        - env:
+            - name: ENABLE_HTTPS
+              value: "false"
+            - name: ENABLE_KEYCLOAK
+              value: "true"
+            - name: ENABLE_OHIF
+              value: "true"
+            - name: ENABLE_ORTHANC
+              value: "true"
+            - name: ENABLE_ORTHANC_TOKEN_SERVICE
+              value: "false"
+          image: orthancteam/orthanc-nginx:23.9.0
+          name: nginx
+          ports:
+            - containerPort: 80
+          resources: {}
+      restartPolicy: Always
+status: {}
