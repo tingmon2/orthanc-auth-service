@@ -22,7 +22,9 @@ COPY keycloak/realm-export.json /opt/keycloak/data/import/
 ENV KC_HOSTNAME_URL=http://localhost/keycloak
 ENV KC_HOSTNAME_ADMIN_URL=http://localhost/keycloak
 
+# 커맨드 실행될 디폴트 옵션
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+# 커맨드는 엔트리포인트의 설정(경로) 아래에서 실행됨
 CMD ["start --optimized --import-realm --proxy edge"]
 
 
